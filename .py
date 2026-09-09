@@ -11,3 +11,13 @@ def parzystosc(number: int):
 def powitanie(name: str):
     zwrot = "Cześć"
     return zwrot ," ", name, "!"
+
+def min_max(liczby):
+    return min(liczby), max(liczby)
+
+print(min_max([1, 3, 6, 3, 9]))
+
+def samogloski(tekst):
+    samogloski = "aeiouyAEIOUY"
+
+    return sum(1 for znak in tekst if znak samogloski)
