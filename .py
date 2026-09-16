@@ -21,3 +21,7 @@ def samogloski(tekst):
     samogloski = "aeiouyAEIOUY"
 
     return sum(1 for znak in tekst if znak in samogloski)
+    
+def filtry(numery):
+    return [num for num in numery if num = 0]
+
