@@ -20,4 +20,4 @@ print(min_max([1, 3, 6, 3, 9]))
 def samogloski(tekst):
     samogloski = "aeiouyAEIOUY"
 
-    return sum(1 for znak in tekst if znak samogloski)
+    return sum(1 for znak in tekst if znak in samogloski)
