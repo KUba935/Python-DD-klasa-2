@@ -25,3 +25,19 @@ def samogloski(tekst):
 def filtry(numery):
     return [num for num in numery if num = 0]
 
+def kalkulator(cena, rabat):
+    if cena < 0 or not (0 <= rabat <= 100):
+        return None
+    cena_koncowa = cena * (1 - rabat / 100)
+    return round(cena_koncowa, 2)
+
+def statystyki_ciagu(tekscik):
+    liczba_znakow = len(tekscik)
+    liczba_slow = len(tekscik.split()) if tekscik.strip() else 0
+    liczba_spacji = tekscik.count(' ')
+    
+    return {
+        "liczba_znakow": liczba_znakow,
+        "liczba_slow": liczba_slow,
+        "liczba_spacji": liczba_spacji
+    }
