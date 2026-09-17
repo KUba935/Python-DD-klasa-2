@@ -41,3 +41,8 @@ def statystyki_ciagu(tekscik):
         "liczba_slow": liczba_slow,
         "liczba_spacji": liczba_spacji
     }
+
+def uniwersalna_srednia(*args):
+  if not args:
+    return 0
+  return sum(args) / len(args)
