@@ -61,3 +61,10 @@ h = 5.0
 wynik = objetosc_walca(r, h)
 print(f"Objętość walca wynosi: {wynik:.2f}")
 # Zadanie 11
+def czy_palindrom(slowo):
+  tekst = slowo.lower()
+  return tekst == tekst[::-1]
+print(czy_palindrom("Kajak"))  
+print(czy_palindrom("Python"))  
+print(czy_palindrom("Radar")) 
+
