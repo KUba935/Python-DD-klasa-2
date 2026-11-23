@@ -1,99 +1,68 @@
 import sqlite3
 
-conn = sqlite3.connect('SQlite')
+conn = sqlite3.connect('SQLlite')
 cursor = conn.cursor()
 
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS uzytkownicy(
-        id int PRIMARY KEY, 
-        imie varchar(20) NOT NULL, 
-        nazwisko varchar(50) NOT NULL,
-        wiek int(2) NOT NULL
-    )
-''')
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Uzytkownicy (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    imie TEXT,
+    nazwisko TEXT,
+    wiek INTEGER
+)
+""")
 
-def managerAdd(name, surname, age):
-    cursor = conn.cursor()
+while True:
+    print("1. Dodaj")
+    print("2. Wyświetl")
+    print("3. Zmień wiek")
+    print("4. Usuń")
+    print("5. Zakończ")
 
-    try:
-        cursor.execute('''
-        INSERT INTO uzytkownicy (imie, nazwisko, wiek) VALUES (?, ?, ?)''', (name, surname, age))
-    except sqlite3.Error as e:
-        print(f" Błąd: {e}")
-    finally:
-        if conn:
-            conn.close
+    wybor = input("Wybierz opcję: ")
+    if wybor == "1":
+        imie = input("Imię: ")
+        nazwisko = input("Nazwisko: ")
+        wiek = int(input("Wiek: "))
 
-def managerEdit(action, arg, id):
-    cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO Uzytkownicy (imie, nazwisko, wiek) VALUES (?, ?, ?)",
+            (imie, nazwisko, wiek)
+        )
+        conn.commit()
+        print("Dodano użytkownika.")
 
-    if action == "wiek" or "age":
-        try:
-            cursor.execute('''
-            UPDATE uzytkownicy (
-                SET wiek = ? WHERE id = ?
-            )''', (arg, id))
-        except sqlite3.Error as e:
-            print(f" Błąd: {e}")
-        finally:
-            if conn:
-                conn.close
+    elif wybor == "2":
+        rekordy = cursor.execute(
+            "SELECT id, imie, nazwisko, wiek FROM Uzytkownicy"
+        ).fetchall()
 
-    if action == "imie" or "name":
-        try:
-            cursor.execute('''
-            UPDATE uzytkownicy (
-                SET imie = ? WHERE id = ?
-            )''', (arg, id))
-        except sqlite3.Error as e:
-            print(f" Błąd: {e}")
-        finally:
-            if conn:
-                conn.close
+        if len(rekordy) == 0:
+            print("Brak użytkowników.")
+        else:
+            for rekord in rekordy:
+                print(rekord)
 
-    if action == "nazwisko" or "nazwisko":
-        try:
-            cursor.execute('''
-            UPDATE uzytkownicy (
-                SET wiek = ? WHERE id = ?
-            )''', (arg, id))
-        except sqlite3.Error as e:
-            print(f" Błąd: {e}")
-        finally:
-            if conn:
-                conn.close
+    elif wybor == "3":
+        id = int(input("ID użytkownika: "))
+        wiek = int(input("Podaj nowy wiek: "))
+        cursor.execute(
+            "UPDATE Uzytkownicy SET wiek = ? WHERE id = ?",
+            (wiek, id)
+        )
+        conn.commit()
+        print("Wiek zaaktualizowany.")
 
-def managerShow(id):
-    try:
-        cursor = conn.cursor()
+    elif wybor == "4":
+        id = int(input("ID użytkownika: "))
+        cursor.execute(
+            "DELETE FROM Uzytkownicy WHERE id = ?",
+            (id,)
+        )
+        conn.commit()
+        print("Usunięto użytkownika.")
 
-        cursor.execute('''
-        SELECT * FROM uzytkownicy
-    ''')
-        row = cursor.fetchall()
+    elif wybor == "5":
+        break
 
-        for line in row:
-            print(line)
-    except sqlite3.Error as e:
-        print(f" Błąd: {e}")
-    finally:
-        if conn:
-            conn.close
-
-def managerDelete(id):
-    try:
-        cursor = conn.cursor()
-
-        row = cursor.execute('''
-        DELETE FROM uzytkownicy WHERE ID = ?
-    ''', id)
-    except sqlite3.Error as e:
-        print(f" Błąd: {e}")
-    finally:
-        if conn:
-            conn.close
-
-managerAdd('Roman', 'Reigns', 41)
-managerAdd('Seth', 'Rollins', 40)
-managerShow(1)
-managerShow(2)
+cursor.close()
